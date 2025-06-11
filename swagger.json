@@ -1,0 +1,92 @@
+{
+    "swagger": "2.0",
+    "info": {
+      "title": "Sebi la Gazelle API",
+      "description": "Jeux pour les enfants",
+      "version": "1.0.0",
+      "contact": {
+        "name": "Eleisawy Mohamed",
+        "email": "contact@sebi-la-gazelle.com"
+      }
+    },
+    "host": "localhost:8008",
+    "basePath": "/api",
+    "schemes": ["http"],
+    "paths": {
+      "/utilisateurs/inscription": {
+        "post": {
+          "summary": "Inscription d'un utilisateur",
+          "description": "Crée un nouvel utilisateur dans la base de données.",
+          "parameters": [
+            {
+              "in": "body",
+              "name": "body",
+              "description": "Informations de l'utilisateur",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/Utilisateur"
+              }
+            }
+          ],
+          "responses": {
+            "201": {
+              "description": "Utilisateur créé avec succès"
+            },
+            "400": {
+              "description": "Email déjà utilisé"
+            },
+            "500": {
+              "description": "Erreur serveur"
+            }
+          }
+        }
+      },
+      "/utilisateurs/connexion": {
+        "post": {
+          "summary": "Connexion d'un utilisateur",
+          "description": "Authentifie un utilisateur et renvoie un token JWT.",
+          "parameters": [
+            {
+              "in": "body",
+              "name": "body",
+              "description": "Informations de connexion",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/Login"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Connexion réussie, retour du token JWT"
+            },
+            "400": {
+              "description": "Utilisateur non trouvé ou mot de passe incorrect"
+            },
+            "500": {
+              "description": "Erreur serveur"
+            }
+          }
+        }
+      }
+    },
+    "definitions": {
+      "Utilisateur": {
+        "type": "object",
+        "properties": {
+          "nom": { "type": "string" },
+          "prenom": { "type": "string" },
+          "age": { "type": "integer" },
+          "email": { "type": "string", "format": "email" },
+          "motDePasse": { "type": "string", "format": "password" }
+        }
+      },
+      "Login": {
+        "type": "object",
+        "properties": {
+          "email": { "type": "string", "format": "email" },
+          "motDePasse": { "type": "string", "format": "password" }
+        }
+      }
+    }
+  }
