@@ -22,7 +22,16 @@ mongoose
   });
 
 const app = express();
-app.use(cors());
+app.use(
+  cors({
+    origin: [
+      "http://localhost:3000", // développement local
+      "http://localhost:5173",
+      "https://sebilagazelle.fr", // ton site déployé
+    ],
+    credentials: true, // utile si tu utilises des cookies ou headers auth
+  })
+);
 
 
 
