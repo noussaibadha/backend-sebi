@@ -1,18 +1,26 @@
 const axios = require("axios");
 
 // Fonction pour générer une image
+
 const generateLeonardoImage = async (req, res) => {
   const { userName, game, level, character } = req.body;
 
   try {
-   const prompt = `Une scène magique pour enfants mettant en scène une gazelle nommée Sebi (pelage doré, yeux doux, air joueur) et son ami l’écureuil Drys (petit, roux, malicieux), fêtant leur victoire dans le jeu ${game}, avec des couleurs vives et un style de dessin animé.`;
+    let prompt;
 
+    if (character === "Drys") {
+      prompt = `Cartoon-style reward image featuring Drys, a cute red squirrel with big shiny eyes and curly dark brown hair, standing upright with a proud smile. Next to him is Sebi, a shiny orange baby gazelle with small horns, big glowing eyes, and white markings. They are in a magical forest full of sparkles, floating stars, and colorful confetti. A big golden trophy with a star on it hovers above them. The style is vibrant 3D illustration, ultra-cute, smooth and glossy textures, inspired by mobile game character art, soft lighting, kid-friendly, like modern animated characters from a children's game or app.`;
+    } else if (character === "James") {
+      prompt = `A cheerful cartoon-style victory scene with James, a wise and friendly owl with glasses, a mustache, a tuxedo and well-groomed brown hair, standing next to Sebi, an adorable orange baby gazelle with shiny eyes, small horns, and white markings. They are in a magical clearing filled with colorful balloons, floating golden stars, and confetti. A large shiny golden medal with a star is floating above them. The style is ultra-cute 3D cartoon, smooth textures, glossy lighting, bright colors, Pixar-inspired, for a children's mobile game. Both characters are smiling and proud, celebrating a victory together.`;
+    } else {
+      prompt = `Une scène fantastique pour enfants avec des personnages félicitant un joueur après avoir gagné au jeu ${game}, ambiance magique et joyeuse.`;
+    }
 
     const response = await axios.post(
       "https://cloud.leonardo.ai/api/rest/v1/generations",
       {
         prompt,
-        modelId: "ac614f96-1082-45bf-be9d-757f2d31c174", // tu peux changer selon ton modèle
+        modelId: "ac614f96-1082-45bf-be9d-757f2d31c174",
         num_images: 1,
         width: 512,
         height: 512,
@@ -34,7 +42,6 @@ const generateLeonardoImage = async (req, res) => {
     res.status(500).json({ error: "Échec génération image IA" });
   }
 };
-
 // Fonction pour récupérer l'image générée
 const getLeonardoImage = async (req, res) => {
   const { generationId } = req.params;
